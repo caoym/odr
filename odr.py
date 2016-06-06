@@ -6,7 +6,7 @@ from skimage.morphology import skeletonize
 from sklearn import preprocessing
 from sklearn.cluster import DBSCAN, MiniBatchKMeans, MeanShift
 from sklearn.cross_validation import train_test_split
-from sklearn.decomposition import PCA, RandomizedPCA
+from sklearn.decomposition import PCA, RandomizedPCA, IncrementalPCA
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_selection import chi2
 from sklearn.grid_search import GridSearchCV
@@ -14,6 +14,8 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.svm import SVC, LinearSVC
 from peewee import *
 
@@ -92,10 +94,8 @@ class AutoSave(object):
         self._attrs[item] = DB.TrainingResult.select(DB.TrainingResult.data).where(DB.TrainingResult.name == self.__class__.__name__+"_"+item).get().data
         return self._attrs[item]
 
-class WordCluster(AutoSave):
+class WordCluster(object):
 
-    def __init__(self):
-        AutoSave.__init__(self)
     """
     通过聚类提取视觉词汇
     """
@@ -119,21 +119,11 @@ class WordCluster(AutoSave):
 
         desc = []
         for i in features:
-            desc.append(self.get_descriptor_lv1(i))
-        #预测lv1
-        lv1 = self._lv1.predict(desc)
-        #预测lv2
-        lv2 = []
-        for i in range(0,len(lv1)):
-            lab = lv1[i]
-            lv2.append((lab,+self._lv2[lab].predict(self.get_descriptor_lv2(features[i]))))
+            desc.append(self.get_descriptor_lv2(i))
 
-        print 'in WordCluster::predict %d'%time()
-        fitted = cv2.PCAProject(numpy.array(desc), self._pca_mean, self._pca_eigenvectors)
-        print 'in WordCluster::predict %d'%time()
-        #words = self._svm.predict_all(fitted)
-        words = self._clf.predict(fitted)
-        print 'end WordCluster::predict %d'%time()
+        desc = self._scaler.transform(desc)
+        desc = self._pca.transform(desc)
+        words = self._kmeans.predict(desc)
 
         print 'end WordCluster::predict %d'%time()
         figure()
@@ -154,12 +144,68 @@ class WordCluster(AutoSave):
             axis('off')
             img = DB.Vocabulary\
                 .select(DB.Vocabulary.feature).join(DB.Feature)\
-                .where(DB.Vocabulary.word == words[i]).get().feature.img
+                .where((DB.Vocabulary.lv1 == words[i]) & (DB.Vocabulary.lv2 == 0)).get().feature.img
             img = numpy.array(img)
             imshow(img)
         show()
 
         return words
+
+    def predict_1(self,img_file):
+        print 'start WordCluster::predict %d'%time()
+        '''
+        预测文本中的文字
+        :param img_file:
+        :return:
+        '''
+        img = Image.open(img_file).convert('L')
+        img = numpy.array(img,'uint8')
+        features = self.get_features_from_image(img)
+
+        desc = []
+        for i in features:
+            desc.append(self.get_descriptor_lv1(i))
+        #预测lv1
+        lv1 = self._lv1.predict(desc)
+        #预测lv2
+        lv2 = []
+        for i in range(0,len(lv1)):
+            lab = lv1[i]
+            lv2_desc = self.get_descriptor_lv2(features[i])
+            norm,pca,svc, = self._lv2[lab]
+            lv2_desc = norm.transform(lv2_desc)
+            lv2_desc = pca.transform(lv2_desc)
+            #proba = svc.predict_proba(lv2_desc)[0]
+            #lv2_lab = numpy.argmax(proba)
+            #if proba[lv2_lab]>=0.0:
+            lv2_lab = svc.predict(lv2_desc)[0]
+            lv2.append((lab, lv2_lab))
+
+        print 'end WordCluster::predict %d'%time()
+        figure()
+        gray()
+        imshow(img)
+
+        figure()
+        gray()
+        for i in range(0,min(400,len(features))):
+            subplot(20,20,i+1)
+            axis('off')
+            imshow(features[i])
+
+        figure()
+        gray()
+        for i in range(0,min(400,len(lv2))):
+            subplot(20,20,i+1)
+            axis('off')
+            img = DB.Vocabulary\
+                .select(DB.Vocabulary.feature).join(DB.Feature)\
+                .where((DB.Vocabulary.lv1 == lv2[i][0]) & (DB.Vocabulary.lv2 == lv2[i][1])).get().feature.img
+            img = numpy.array(img)
+            imshow(img)
+        show()
+
+        return lv2
 
     def get_words_count(self):
         return DB.Vocabulary.select(DB.Vocabulary.lv1,DB.Vocabulary.lv2).where((DB.Vocabulary.lv2 != -1) & (DB.Vocabulary.lv1 != -1)).distinct().count()
@@ -176,7 +222,7 @@ class WordCluster(AutoSave):
             key = (f.feature.label, f.feature.docname)
             if not docs.has_key(key):
                 docs[key]=[]
-            docs[key].append((f.lv1,f.lv2))
+            docs[key].append(f.lv1)
         return docs
 
     def create_classifier(self):
@@ -361,8 +407,77 @@ class WordCluster(AutoSave):
 
         pass
 
+    def cluster_all(self):
+        #anova_svm = Pipeline([(,),('pca', IncrementalPCA(n_components=70)), ('svc', clf)])
+        print '%d cluster_all begin'%(time())
+        self._scaler = MinMaxScaler()
+        DB.db.connect()
+        offset = 0
+        steps = 3000
+        # scale
+        while True:
+            print ' %d MinMaxScaler partial_fit %d'%(time(),offset)
+            query = DB.DescriptorModel.select(DB.DescriptorModel.feature,DB.DescriptorModel.lv2).offset(offset).limit(steps).tuples().iterator()
+            features = numpy.array(map(lambda x:[x[0]]+x[1].flatten().tolist(),query))
+            if len(features) == 0:
+                break
+            offset += len(features)
+            X = features[:,1:]
+            self._scaler.partial_fit(X)
+        # pca
+        offset = 0
+        self._pca = IncrementalPCA(n_components=70,whiten=True, copy=False,)
+        while True:
+            print ' %d IncrementalPCA partial_fit %d'%(time(),offset)
+            query = DB.DescriptorModel.select(DB.DescriptorModel.feature,DB.DescriptorModel.lv2).offset(offset).limit(steps).tuples().iterator()
+            features = numpy.array(map(lambda x:[x[0]]+x[1].flatten().tolist(),query))
+            if len(features) == 0:
+                break
+            offset += len(features)
+            X = features[:,1:]
+            X = self._scaler.transform(X)
+            self._pca.partial_fit(X)
+
+        #KMeans
+        offset = 0
+        self._kmeans = MiniBatchKMeans(n_clusters=7000,verbose=1,max_no_improvement=None,reassignment_ratio=1.0)
+        while True:
+            print ' %d MiniBatchKMeans partial_fit %d'%(time(),offset)
+            query = DB.DescriptorModel.select(DB.DescriptorModel.feature,DB.DescriptorModel.lv2).offset(offset).limit(30000).tuples().iterator()
+            features = numpy.array(map(lambda x:[x[0]]+x[1].flatten().tolist(),query))
+            if len(features) == 0:
+                break
+            offset += len(features)
+            X = features[:,1:]
+            X = self._scaler.transform(X)
+            X = self._pca.transform(X)
+            self._kmeans.partial_fit(X)
+
+        with DB.db.transaction():
+            DB.Vocabulary.drop_table(fail_silently=True)
+            DB.Vocabulary.create_table()
+
+            offset=0
+            while True:
+                print ' %d predict %d'%(time(),offset)
+                query = DB.DescriptorModel.select(DB.DescriptorModel.feature,DB.DescriptorModel.lv2).offset(offset).limit(1000).tuples().iterator()
+                features = numpy.array(map(lambda x:[x[0]]+x[1].flatten().tolist(),query))
+                if len(features) == 0:
+                    break
+                offset += len(features)
+                Y = features[:,0]
+                X = features[:,1:]
+                X = self._scaler.transform(X)
+                X = self._pca.transform(X)
+                res = self._kmeans.predict(X)
+                for i in range(0,len(res)):
+                    DB.Vocabulary.insert(lv1 = res[i],lv2=0, feature = Y[i]).execute()
+        print '%d cluster_all end'%(time())
+
     def cluster_lv1(self):
         print "start cluster_lv1 ..."
+
+        DB.db.connect()
         offset = 0
         limit = 3000
         cluster = MiniBatchKMeans(n_clusters=100,verbose=1,max_no_improvement=None,reassignment_ratio=1.0)
@@ -378,7 +493,7 @@ class WordCluster(AutoSave):
             X = features[:,1:]
             cluster.partial_fit(X)
 
-        DB.db.connect()
+
         with DB.db.transaction():
             DB.Vocabulary.drop_table(fail_silently=True)
             DB.Vocabulary.create_table()
@@ -410,16 +525,16 @@ class WordCluster(AutoSave):
         word_count = 0
         with DB.db.transaction():
             maxid = DB.Vocabulary.select(fn.MAX(DB.Vocabulary.lv1).alias('max')).get().max
-            for i in range(0,maxid+1):
-                count = DB.Vocabulary.select(fn.COUNT().alias('count')).where(DB.Vocabulary.lv1 == i).get().count
-                print "begin cluster_lv2 %d, %d"%(i,count)
+            for lv1_id in range(0,maxid+1):
+                count = DB.Vocabulary.select(fn.COUNT().alias('count')).where(DB.Vocabulary.lv1 == lv1_id).get().count
+                print "begin cluster_lv2 %d, %d"%(lv1_id,count)
                 cluster = DBSCAN(6, min_samples=3)
                 #cluster = MeanShift(bandwidth=0.79, cluster_all=False, min_bin_freq=3)
 
                 query = DB.DescriptorModel.\
                     select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2).\
                     join(DB.Vocabulary,on=(DB.Vocabulary.feature == DB.DescriptorModel.feature)).\
-                    where(DB.Vocabulary.lv1 == i).\
+                    where(DB.Vocabulary.lv1 == lv1_id).\
                     tuples().iterator()
 
                 features = numpy.array(map(lambda x:[x[0]]+x[1].flatten().tolist(),query))
@@ -440,11 +555,11 @@ class WordCluster(AutoSave):
                 svc = train_svc(None,trainY,trainX)
 
                 types = {}
-                for i in range(0,len(cluster.labels_)):
-                    type = cluster.labels_[i]
+                for lab in range(0,len(cluster.labels_)):
+                    type = cluster.labels_[lab]
                     if not types.has_key(type):
                         types[type] = []
-                    types[type].append(i)
+                    types[type].append(lab)
                 print "end cluster_lv2 %d words, %d core samples, %d noise"%(len(types.keys()),len(cluster.core_sample_indices_),  len(types[-1]) if types.has_key(-1) else 0 )
                 #print "end cluster_lv2 %d words, %d core centers, %d noise"%(len(types.keys()),len(cluster.cluster_centers_),  len(types[-1]) if types.has_key(-1) else 0 )
 
@@ -471,8 +586,7 @@ class WordCluster(AutoSave):
                 for id in range(0,len(cluster.labels_)):
                     type = cluster.labels_[id]
                     DB.Vocabulary.update(lv2 = type ).where(DB.Vocabulary.feature == Y[id]).execute()
-                clusters[i] = [norm,pca,svc]
-
+                clusters[lv1_id] = [norm,pca,svc]
 
         self._lv2 = clusters
         print "done cluster_lv2"
@@ -1301,12 +1415,11 @@ class NameToIndex:
     def name(self, id):
         return self.names[id]
 
-class DocClassifier(AutoSave):
+class DocClassifier(object):
     '''
     文档分类
     '''
     def __init__(self,word_cluster):
-        AutoSave.__init__(self)
         self._word_cluster = word_cluster
 
     def fit(self):
