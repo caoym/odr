@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/test10.py" description="f = open(path+&quot;/mean&quot;,'wb')" line="177" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f1cfe00e-9aba-47f0-8cca-fb3b5f551971" name="Default" comment="" />
     <ignored path="mytest.iws" />
@@ -31,14 +34,24 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="test10.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test10.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.066667">
+              <caret line="669" column="8" selection-start-line="669" selection-start-column="7" selection-end-line="669" selection-end-column="18" />
+              <folding>
+                <element signature="e#15#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="odr.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/odr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.1289399">
-              <caret line="442" column="32" selection-start-line="442" selection-start-column="32" selection-end-line="442" selection-end-column="38" />
-              <folding>
-                <element signature="e#15#36#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-3.8">
+              <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -47,9 +60,29 @@
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+              <caret line="31" column="24" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vq.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/scipy/cluster/vq.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="179" column="48" selection-start-line="179" selection-start-column="48" selection-end-line="179" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Words.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/Words.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="692" column="17" selection-start-line="692" selection-start-column="17" selection-end-line="692" selection-end-column="17" />
               <folding>
-                <element signature="e#15#57#0" expanded="true" />
+                <element signature="e#2393#5442#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -82,6 +115,7 @@
         <option value="$PROJECT_DIR$/words/roughing.py" />
         <option value="$PROJECT_DIR$/utils/FeaturesDB.py" />
         <option value="$PROJECT_DIR$/utils/FeaturesDB2.py" />
+        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/utils/thinning.py" />
         <option value="$PROJECT_DIR$/utils/word_detection.py" />
         <option value="$PROJECT_DIR$/utils/Words.py" />
@@ -91,7 +125,6 @@
         <option value="$PROJECT_DIR$/train.py" />
         <option value="$PROJECT_DIR$/utils/DB.py" />
         <option value="$PROJECT_DIR$/test10.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/odr.py" />
       </list>
     </option>
@@ -100,10 +133,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1366" />
+    <option name="height" value="728" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -137,15 +168,9 @@
               <option name="myItemId" value="mytest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mytest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="odr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -154,11 +179,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="odr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
+              <option name="myItemId" value="mytest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -172,7 +193,6 @@
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/caoym/Anaconda/Lib/site-packages/sklearn/preprocessing/data.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.buildout.BuildoutModulesConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -180,7 +200,24 @@
       <recent name="D:\cloud\mytest\wordseg" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.test10">
+    <configuration default="false" name="test9" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mytest" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test9.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
     <configuration default="false" name="Words" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -194,6 +231,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mytest" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/Words.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="features" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mytest" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/features.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -228,40 +282,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mytest" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/word_detection.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="DB" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mytest" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/DB.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="odr" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mytest" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/odr.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -425,19 +445,19 @@
     <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Python.main" />
       <item index="1" class="java.lang.String" itemvalue="Python.test10" />
-      <item index="2" class="java.lang.String" itemvalue="Python.Words" />
-      <item index="3" class="java.lang.String" itemvalue="Python.train" />
-      <item index="4" class="java.lang.String" itemvalue="Python.word_detection" />
-      <item index="5" class="java.lang.String" itemvalue="Python.DB" />
-      <item index="6" class="java.lang.String" itemvalue="Python.odr" />
+      <item index="2" class="java.lang.String" itemvalue="Python.test9" />
+      <item index="3" class="java.lang.String" itemvalue="Python.Words" />
+      <item index="4" class="java.lang.String" itemvalue="Python.features" />
+      <item index="5" class="java.lang.String" itemvalue="Python.train" />
+      <item index="6" class="java.lang.String" itemvalue="Python.word_detection" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.odr" />
-        <item index="1" class="java.lang.String" itemvalue="Python.DB" />
-        <item index="2" class="java.lang.String" itemvalue="Python.train" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Words" />
-        <item index="4" class="java.lang.String" itemvalue="Python.word_detection" />
+        <item index="0" class="java.lang.String" itemvalue="Python.train" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Words" />
+        <item index="2" class="java.lang.String" itemvalue="Python.word_detection" />
+        <item index="3" class="java.lang.String" itemvalue="Python.features" />
+        <item index="4" class="java.lang.String" itemvalue="Python.test9" />
       </list>
     </recent_temporary>
   </component>
@@ -464,27 +484,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="0" y="0" width="1366" height="728" extended-state="1" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17261904" sideWeight="0.4922049" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1746988" sideWeight="0.4922049" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20807454" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3344209" sideWeight="0.34747022" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37478992" sideWeight="0.5030166" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32328308" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32909092" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3344209" sideWeight="0.6525298" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23115578" sideWeight="0.4969834" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32909092" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22321428" sideWeight="0.5077951" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34910277" sideWeight="0.48511904" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35845897" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32328308" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -524,9 +544,93 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test2.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="152" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test2.py</url>
+          <line>7</line>
+          <option name="timeStamp" value="153" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test2.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="154" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/Words.py</url>
+          <line>619</line>
+          <option name="timeStamp" value="208" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/Words.py</url>
+          <line>567</line>
+          <option name="timeStamp" value="224" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test3.py</url>
+          <line>126</line>
+          <option name="timeStamp" value="261" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test3.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="263" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test4.py</url>
+          <option name="timeStamp" value="267" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test6.py</url>
+          <line>97</line>
+          <option name="timeStamp" value="270" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test6.py</url>
+          <line>119</line>
+          <option name="timeStamp" value="271" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test6.py</url>
+          <line>113</line>
+          <option name="timeStamp" value="272" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test8.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="273" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/words/roughing.py</url>
           <line>85</line>
           <option name="timeStamp" value="298" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/Words.py</url>
+          <line>702</line>
+          <option name="timeStamp" value="348" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test10.py</url>
+          <line>219</line>
+          <option name="timeStamp" value="522" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test10.py</url>
+          <line>172</line>
+          <option name="timeStamp" value="620" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test10.py</url>
+          <line>541</line>
+          <option name="timeStamp" value="666" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/AdjustPostion.py</url>
+          <line>108</line>
+          <option name="timeStamp" value="692" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$USER_HOME$/Anaconda/Lib/site-packages/ddbscan/ddbscan.py</url>
@@ -534,88 +638,79 @@
           <option name="timeStamp" value="762" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/train.py</url>
+          <line>331</line>
+          <option name="timeStamp" value="840" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/train.py</url>
+          <line>250</line>
+          <option name="timeStamp" value="841" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>1179</line>
+          <line>1065</line>
           <option name="timeStamp" value="857" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>648</line>
+          <line>534</line>
           <option name="timeStamp" value="917" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>375</line>
+          <line>1334</line>
+          <option name="timeStamp" value="921" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/odr.py</url>
+          <line>134</line>
+          <option name="timeStamp" value="924" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/odr.py</url>
+          <line>131</line>
+          <option name="timeStamp" value="926" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/odr.py</url>
+          <line>329</line>
           <option name="timeStamp" value="927" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>623</line>
+          <line>509</line>
           <option name="timeStamp" value="928" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>510</line>
+          <line>395</line>
           <option name="timeStamp" value="950" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <option name="timeStamp" value="982" />
+          <url>file://$PROJECT_DIR$/odr.py</url>
+          <line>735</line>
+          <option name="timeStamp" value="971" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="983" />
+          <line>1319</line>
+          <option name="timeStamp" value="973" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>590</line>
-          <option name="timeStamp" value="984" />
+          <line>123</line>
+          <option name="timeStamp" value="974" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>87</line>
-          <option name="timeStamp" value="985" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>33</line>
-          <option name="timeStamp" value="986" />
+          <line>85</line>
+          <option name="timeStamp" value="976" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>207</line>
-          <option name="timeStamp" value="992" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>1464</line>
-          <option name="timeStamp" value="995" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>181</line>
-          <option name="timeStamp" value="996" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>554</line>
-          <option name="timeStamp" value="997" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>1433</line>
-          <option name="timeStamp" value="999" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>1444</line>
-          <option name="timeStamp" value="1000" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>1462</line>
-          <option name="timeStamp" value="1001" />
+          <line>436</line>
+          <option name="timeStamp" value="981" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -628,7 +723,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1002" />
+      <option name="time" value="982" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -638,36 +733,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/odr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#15#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding>
-            <element signature="e#15#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/DB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="47" selection-start-line="40" selection-start-column="47" selection-end-line="40" selection-end-column="47" />
-          <folding>
-            <element signature="e#36#56#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/cluster/spectral.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33236152">
@@ -689,10 +754,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/word_detection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="14" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test9.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="140" column="22" selection-start-line="140" selection-start-column="22" selection-end-line="140" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.539682">
+          <caret line="152" column="6" selection-start-line="152" selection-start-column="6" selection-end-line="152" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/.PyCharm40/system/python_stubs/-756981573/signal.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/AdjustPostion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5163044">
+          <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="27" />
+          <folding>
+            <element signature="e#38#49#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -703,6 +799,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/AdjustColor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/utils/extmath.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.035326">
@@ -710,10 +813,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/decomposition/pca.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.8288044">
+          <caret line="653" column="19" selection-start-line="653" selection-start-column="19" selection-end-line="653" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/grid_search.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33152175">
           <caret line="394" column="0" selection-start-line="394" selection-start-column="0" selection-end-line="394" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/features.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6195652">
+          <caret line="226" column="10" selection-start-line="217" selection-start-column="4" selection-end-line="226" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -815,6 +932,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/words/roughing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="123" column="8" selection-start-line="123" selection-start-column="8" selection-end-line="123" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/multiclass.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33252427">
@@ -841,7 +966,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="591" column="47" selection-start-line="591" selection-start-column="33" selection-end-line="591" selection-end-column="47" />
           <folding>
-            <element signature="e#228#246#0" expanded="false" />
+            <element signature="e#228#246#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -858,6 +983,16 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="3930" column="0" selection-start-line="3930" selection-start-column="0" selection-end-line="3930" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/Words.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="692" column="17" selection-start-line="692" selection-start-column="17" selection-end-line="692" selection-end-column="17" />
+          <folding>
+            <element signature="e#2393#5442#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -884,10 +1019,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="24" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/preprocessing/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="664" column="8" selection-start-line="664" selection-start-column="8" selection-end-line="664" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/cluster/k_means_.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="14.695652">
+          <caret line="1413" column="8" selection-start-line="1413" selection-start-column="8" selection-end-line="1413" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/DB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46224257">
+          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
+          <folding>
+            <element signature="e#36#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/.PyCharm40/system/python_stubs/-756981573/math.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="216" column="9" selection-start-line="216" selection-start-column="4" selection-end-line="216" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/scipy/cluster/vq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="179" column="48" selection-start-line="179" selection-start-column="48" selection-end-line="179" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/path.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="171" column="18" selection-start-line="171" selection-start-column="18" selection-end-line="171" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -907,126 +1093,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm40/system/python_stubs/-756981573/cPickle.py">
+    <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33150685">
-          <caret line="19" column="28" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="410" column="13" selection-start-line="410" selection-start-column="4" selection-end-line="410" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/cluster/k_means_.py">
+    <entry file="file://$PROJECT_DIR$/test10.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3323782">
-          <caret line="1417" column="57" selection-start-line="1417" selection-start-column="50" selection-end-line="1417" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/scipy/cluster/vq.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="179" column="48" selection-start-line="179" selection-start-column="48" selection-end-line="179" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/numpy/core/fromnumeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-29.708109">
-          <caret line="2170" column="4" selection-start-line="2170" selection-start-column="4" selection-end-line="2170" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/decomposition/pca.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22063038">
-          <caret line="543" column="0" selection-start-line="543" selection-start-column="0" selection-end-line="543" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.790831">
-          <caret line="348" column="16" selection-start-line="348" selection-start-column="13" selection-end-line="348" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/preprocessing/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5989446">
-          <caret line="35" column="19" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/preprocessing/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.9709764">
-          <caret line="177" column="6" selection-start-line="177" selection-start-column="6" selection-end-line="177" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6543536">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/DB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33245382">
-          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
+        <state vertical-scroll-proportion="-9.066667">
+          <caret line="669" column="8" selection-start-line="669" selection-start-column="7" selection-end-line="669" selection-end-column="18" />
           <folding>
-            <element signature="e#36#56#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/decomposition/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49283668">
-          <caret line="104" column="28" selection-start-line="104" selection-start-column="28" selection-end-line="104" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/decomposition/incremental_pca.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3323782">
-          <caret line="59" column="27" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/path.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="171" column="18" selection-start-line="171" selection-start-column="18" selection-end-line="171" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
-          <folding>
-            <element signature="e#15#57#0" expanded="true" />
+            <element signature="e#15#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/odr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.1289399">
-          <caret line="442" column="32" selection-start-line="442" selection-start-column="32" selection-end-line="442" selection-end-column="38" />
-          <folding>
-            <element signature="e#15#36#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-3.8">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>
