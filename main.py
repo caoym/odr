@@ -19,20 +19,20 @@ if __name__ == '__main__':
 
     #wc = WordCluster()
     wc = load('WordCluster.dump')
-    #wc.fit(u"D:/data/samples")
+    wc.fit(u"D:/data/samples")
     #wc.create_descriptors()
     #wc.cluster_words_all()
-    wc.cluster_all()
+    #wc.cluster_lv1()
     #wc.cluster_lv2()
     #save(wc,'WordCluster.dump')
     #
-    save(wc,'WordCluster.dump')
-    wc.display_words()
+    #save(wc,'WordCluster.dump')
+    #wc.display_words()
 
     dc = DocClassifier(wc)
     #dc = load('DocClassifier.dump.1')
     dc.fit()
-    save(dc,'DocClassifier.dump.1')
+    #save(dc,'DocClassifier.dump.1')
 
     for k,v in dc.predict(u"D:\\data\\3.jpg").iteritems():
         print k,v

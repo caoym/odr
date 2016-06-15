@@ -1,0 +1,4 @@
+DocClassifier.dump.1
+*.dump
+WordCluster.dump
+*.pyc

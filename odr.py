@@ -18,9 +18,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.svm import SVC, LinearSVC
 from peewee import *
-
-__author__ = 'caoym'
-
 import os
 import cv2
 import math
@@ -33,6 +30,7 @@ from PIL import Image
 from matplotlib.pyplot import *
 from skimage.feature import daisy, hog
 from sklearn.neighbors import KNeighborsClassifier
+from words import get_features_from_image
 
 
 def train_svc(target_names,labs,data):
@@ -47,10 +45,10 @@ def train_svc(target_names,labs,data):
         param_grid = {'C': [1e3, 5e3, 1e4, 5e4, 1e5],
                       'gamma': [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1], }
 
-        gscv = GridSearchCV(SVC(kernel='rbf',probability=True,class_weight="auto"), param_grid=param_grid)
+        gscv = GridSearchCV(SVC(kernel='linear',probability=True,class_weight="auto"), param_grid=param_grid)
         #'linear', 'poly', 'rbf', 'sigmoid', 'precomputed'
         #clf = SVC(kernel='linear',probability=True,class_weight="auto")
-        svc = gscv.fit(data, labs)
+        svc = gscv.fit(X_train, y_train)
         print("done in %0.3fs" % (time() - t0))
         print("Best estimator found by grid search:")
         print(svc.best_estimator_)
@@ -68,34 +66,34 @@ def train_svc(target_names,labs,data):
         print(confusion_matrix(y_test, y_pred))
         return svc
 
-class AutoSave(object):
-    def __init__(self):
-        self.__dict__['_attrs'] = {}
+class DocDescriptor(object):
 
-    def __setattr__(self, name, value):
-        DB.db.connect()
-        with DB.db.transaction():
-            DB.TrainingResult.delete().where(DB.TrainingResult.name == self.__class__.__name__+"_"+name).execute()
+    def __init__(self, word_descriptor, n_clusters = 1000):
+        self._n_clusters = n_clusters
+        self._cluster = MiniBatchKMeans(n_clusters=n_clusters,verbose=1,max_no_improvement=None,reassignment_ratio=1.0)
+        self._word_descriptor = word_descriptor
 
-            tr = DB.TrainingResult()
-            tr.name = self.__class__.__name__+"_"+name
-            tr.data = value
-            tr.save()
-            self._attrs[name] = value
-            print tr.name + " saved"
+    def get_word_descriptor(self, img):
+        X = get_features_from_image(img)
+        words = []
+        for i in X:
+            words.append(self._word_descriptor.transform(i))
+        return words
 
-    def __getattr__(self, item):
-        if self.__dict__.has_key(item):
-            return self.__dict__ [item]
+    def partial_fit(self, img):
+        X = self.get_word_descriptor(img)
+        self._cluster.partial_fit(X)
 
-        if self._attrs.has_key(item):
-            return self._attrs[item]
-        DB.db.connect()
-        self._attrs[item] = DB.TrainingResult.select(DB.TrainingResult.data).where(DB.TrainingResult.name == self.__class__.__name__+"_"+item).get().data
-        return self._attrs[item]
+    def transform(self, img):
+        X = self.get_word_descriptor(img)
+        Y = self._cluster.predict(X)
+        desc = [0]*self._n_clusters
+        unit = 1.0/self._n_clusters
+        for i in range(0, len(Y)):
+            desc[Y[i]] += unit
+        return desc
 
 class WordCluster(object):
-
     """
     通过聚类提取视觉词汇
     """
@@ -119,11 +117,11 @@ class WordCluster(object):
 
         desc = []
         for i in features:
-            desc.append(self.get_descriptor_lv2(i))
+            desc.append(self.get_descriptor_lv1(i))
 
-        desc = self._scaler.transform(desc)
-        desc = self._pca.transform(desc)
-        words = self._kmeans.predict(desc)
+        #desc = self._scaler.transform(desc)
+        #desc = self._pca.transform(desc)
+        words = self._lv1.predict(desc)
 
         print 'end WordCluster::predict %d'%time()
         figure()
@@ -480,7 +478,7 @@ class WordCluster(object):
         DB.db.connect()
         offset = 0
         limit = 3000
-        cluster = MiniBatchKMeans(n_clusters=100,verbose=1,max_no_improvement=None,reassignment_ratio=1.0)
+        cluster = MiniBatchKMeans(n_clusters=1000,verbose=1,max_no_improvement=None,reassignment_ratio=1.0)
         while True:
             print ' %d partial_fit %d'%(time(),offset)
 
@@ -997,405 +995,8 @@ class WordCluster(object):
                         mode.save()
             print("WordCluster::make_features done. %s features found"%count)
 
-    def get_lines_from_image(self, src):
-        '''
-        从图片中拟合直线
-        :param src:
-        :return:
-        '''
-        #srcArr = numpy.array(src, 'uint8')
-        # srcArr,T = rof.denoise(srcArr, srcArr)
-        dst = cv2.Canny(src, 50, 200)
-        lines = cv2.HoughLinesP(dst, 2, math.pi/180.0, 40, numpy.array([]), 50, 10)
-        if lines is None:
-            return None
-        res = []
-        for line in lines:
-            x = (line[0][2] - line[0][0])
-            y = (line[0][3] - line[0][1])
-            xy = (x ** 2 + y ** 2) ** 0.5
-            if 0 == xy:
-                continue
-            sin = y / xy
-            angle = numpy.arcsin(sin) * 360 / 2 / numpy.pi
-
-            res += [[line[0][0], line[0][1], line[0][2], line[0][3], 1, sin, angle]]
-        return numpy.array(res)
-
-    def adjust_slope(self, src):
-        """
-        矫正图片角度
-        :type src: numpy.array
-        """
-        h, w = src.shape[:2]
-        lines = self.get_lines_from_image(src)
-
-        if lines is None:
-            return src,0
-        # 画出检查到的线
-        #figure()
-        #gray()
-        #imshow(src)
-        #for line in lines:
-        #    plot([line[0], line[2]],[line[1], line[3]],'r-')
-        #bins = len(lines)/5
-        #n, bins = numpy.histogram(lines[:,6], bins=180, normed=True)
-        #hSlope = bins[n.argmax(axis=0)]
-        hSlope = numpy.median(lines[:,6])
-        if abs(hSlope)<3:
-            hSlope = 0
-            dest = src
-        else:
-            dest = ndimage.rotate(src, hSlope)
-        return dest,hSlope
-
-    def adjust_size(self, src):
-        """
-        矫正图片大小
-        通过一张图片中拟合到的直线长度与图片长宽的比例，确定图片的大小是否合适
-        :type src: numpy.array
-        """
-        for loop in range(0,8):
-            h, w = src.shape[:2]
-            lines = self.get_lines_from_image(src)
-            if lines is None:
-                return src
-            #左右最大间距
-            left = lines[:,0]
-            left = sorted(left, reverse=False)
-            cut = len(left)/3+1
-            left = numpy.median(numpy.array(left)[:cut])
-            right = lines[:,2]
-            right = sorted(right, reverse=True)
-            cut = len(right)/3+1
-            right = numpy.median(numpy.array(right)[:cut])
-            maxlen = right - left
-            #平均宽度
-            arvlen = []
-            for line in lines:
-                arvlen += [line[2] - line[0]]
-
-            arvlen = numpy.median(arvlen)
-            if maxlen>arvlen*8:
-                pil_im = Image.fromarray(numpy.uint8(src))
-                src = numpy.array(pil_im.resize((int(w*0.8),int(h*0.8)) ,Image.BILINEAR))
-            else:
-                break
-        return src
-
-    def get_text_lines_from_image(self, src):
-        '''
-        将图片按文本单行切割
-        :param src:
-        :return:图片数组
-        '''
-        #调整大小
-        src = self.adjust_size(src)
-
-        temp = src.copy()
-        #调整水平
-        src = cv2.Canny(src, 100, 200)
-        src,slope = self.adjust_slope(src)
-
-        #src = cv2.erode(src,cv2.getStructuringElement(cv2.MORPH_CROSS,(1, 3)) )
-        #src = cv2.dilate(src,cv2.getStructuringElement(cv2.MORPH_CROSS,(1, 3)) )
-
-        src = cv2.dilate(src,cv2.getStructuringElement(cv2.MORPH_RECT,(40, 3)) )
-        src = cv2.erode(src,cv2.getStructuringElement(cv2.MORPH_RECT,(40, 3)) )
-
-        src = cv2.erode(src,cv2.getStructuringElement(cv2.MORPH_RECT,(5, 5)) )
-        src = cv2.dilate(src,cv2.getStructuringElement(cv2.MORPH_RECT,(6, 5)) )
-
-        src = 1*(src>128)
-
-        labels_open, nbr_objects_open = measurements.label(src)
-
-        #调整水平
-        block_size = 40
-        temp = threshold_adaptive(temp, block_size, offset=10)
-        temp = numpy.array(temp,'uint8')*255
-        temp = cv2.bitwise_not(temp)
-
-        if slope != 0:
-            temp = ndimage.rotate(temp, slope)
-            #旋转后像素会平滑，重新二值化
-            temp = cv2.bitwise_not(temp)
-            temp = threshold_adaptive(temp, block_size,offset=20)
-            temp = numpy.array(temp,'uint8')*255
-            temp = cv2.bitwise_not(temp)
-
-        lines = [];
-
-        image  = numpy.zeros(numpy.array(src).shape)
-        count = 0
-        for i in range(1,nbr_objects_open+1):
-
-            test = temp.copy()
-            test[labels_open != i]=0
-            box = self.bounding_box(test)
-            x,y,w,h = box
-            if h<10 or w<3:
-                continue;
-            #忽略靠近上下边的区域
-            '''if y<2:
-                continue
-            if y+h> len(temp)-2:
-                continue'''
-            data = test[y:y+h, x:x+w]
-            lines.append(data)
-
-            copy = src.copy()*255.
-            copy[labels_open != i]=0
-            box = self.bounding_box(copy)
-            x,y,w,h = box
-
-            toerode = w/3
-            if toerode <=1:
-                continue
-
-            copy = cv2.erode(copy,cv2.getStructuringElement(cv2.MORPH_RECT,(toerode, 1)) )
-            copy = cv2.dilate(copy,cv2.getStructuringElement(cv2.MORPH_RECT,(toerode, 1)) )
-            copy = 1*(copy>128)
-
-            sub_labels_open, sub_nbr_objects_open = measurements.label(copy)
-            if(sub_nbr_objects_open >1):
-                for i in range(1,sub_nbr_objects_open+1):
-                    test = temp.copy()
-                    test[sub_labels_open != i]=0
-                    box = self.bounding_box(test)
-                    #count+=1
-                    #image[sub_labels_open == i] = count
-                    x,y,w,h = box
-                    if h<10 or w<3:
-                        continue;
-                    #忽略靠近上下边的区域
-                    if y<2:
-                        continue
-                    if y+h> len(temp)-2:
-                        continue
-
-                    data = test[y:y+h, x:x+w]
-                    lines.append(data)
-
-        '''figure()
-        subplot(221)
-        imshow(temp)
-        subplot(222)
-        imshow(image)
-        subplot(223)
-        imshow(labels_open)
-        show()'''
-        return lines
-
-    def get_separaters_from_image(self, src,orisum):
-        '''
-        从单行文本图片中获取每个字之间的切割位置
-        :param src:
-        :param orisum:
-        :return:
-        '''
-
-        src = signal.detrend(src)
-        #找出拐点
-        trend = False #False 下降，True上涨
-        preval = 0 #上一个值
-        points = [] #拐点
-        pos = 0
-        for i in src:
-            if preval != i:
-                if trend != (i>preval):
-                    trend = (i>preval)
-                    points += [[pos if pos == 0 else pos-1,preval,orisum[pos]]]
-            pos = pos+1
-            preval = i
 
 
-        if len(points) <4:
-            return [[0,len(src)]]
-        points += [[pos,0]]
-
-        #分隔
-        i = 1
-        points = numpy.array(points)
-        count = points.shape[:2][0]
-        left = 0
-        res = []
-        while i<count-1:
-            if points[i][1] > points[i-1][1] and points[i][1] > points[i+1][1]:
-                rightY = points[i+1][1]
-                right = points[i+1][0]
-                for x in range(i+1,count):
-                    if rightY>=points[x][1]:
-                        rightY=points[x][1]
-                        right=points[x][0]
-                    else:
-                        break
-                res += [[left,right]]
-                left = right
-            i += 1
-        if left<src.shape[:2][0]:
-            res += [[left,src.shape[:2][0]]]
-
-        #搜索左右像素，调整分割点
-        '''adjusted = []
-        for i in res:
-            l,r = i;
-            adjusted.append([findMinPos(orisum,l,2),findMinPos(orisum,r,2)])'''
-        return res
-
-    def separate_words_from_image(self, src):
-        '''
-        从单行文本图片中切割出每一个字
-        :param src:
-        :return:
-        '''
-        '''figure()
-        subplot(211)
-        imshow(src)
-        subplot(212)
-        imshow(tmp)
-        show()'''
-        orisum = src.sum(axis=0)/255.0
-        sum = filters.gaussian_filter(orisum,8)
-        sep = self.get_separaters_from_image(sum,filters.gaussian_filter(orisum,2))
-
-        words = []
-        pos = 0
-        h = len(src)
-        for i in sep:
-            #words += [[i[0],0,i[1]-i[0],h]]
-            word = src[:,i[0]:i[1]]
-            x,y,w,h = self.bounding_box(word)
-            words.append([i[0]+x,y,w,h])
-            #if word is not None:
-           #     words += [word]
-        return words
-
-    def get_features_from_image(self, src, maxW=4.):
-        '''
-        :param src:
-        :param maxW: 截取特征的最大宽度（以高度的倍数为单位，3倍差不多是3个字的宽度）
-        :return:
-        '''
-        res = []
-
-        lines = self.get_text_lines_from_image(src)
-        for lineData in lines:
-            words = numpy.array(self.separate_words_from_image(lineData))
-            averageH = numpy.average(words[:,3]);
-
-            for i in range(0,len(words)):
-                startX,startY,startW,startH = words[i]
-                passed = 0
-                pos = i
-                clipTp = startY
-                clipBt = startY+startH
-                while (len == 0 or passed+startW<averageH*maxW) and pos<len(words):
-                    x,y,w,h = words[pos]
-                    clipLt = startX
-                    clipRt = x+w
-                    clipBt = max(y+h,clipBt)
-                    clipTp = min(y,clipTp)
-
-                    data = lineData[clipTp:clipBt,clipLt:clipRt]
-                    #
-                    #data2 = Image.fromarray(data).resize((64,32),Image.BILINEAR)
-
-                    #data = skeletonize(data/255)*255
-                    #data = zhangSuen(data/255)*255
-                    #删除连续的空白列
-                    data = self.erase_black(data)
-                    data = Image.fromarray(data).resize((96,32),Image.BILINEAR)
-                    #data = numpy.array(data)
-                    #data = skeletonize(data/255)*255
-
-                    '''data = cv2.bitwise_not(numpy.array(data))
-                    data = threshold_adaptive(data, 40, offset=10)
-                    data = numpy.array(data,'uint8')*255
-                    data = cv2.bitwise_not(data)
-                    #data, distance = medial_axis(data, return_distance=True)
-                    data = skeletonize(data/255)*255
-                    data = Image.fromarray(data)'''
-                    #figure()
-                    #gray()
-                    #imshow(data2)
-                    #figure()
-                    #imshow(labels_open)
-                    #show()
-                    #objs = measurements.find_objects(labels_open,nbr_objects_open)
-
-                    '''figure()
-                    gray()
-                    imshow(data)
-                    show()'''
-
-                    #data = numpy.array(data,'uint8').tolist()
-                    #data = scaler.fit_transform(data)
-                    res.append(data);
-
-                    passed += w
-                    pos += 1
-        '''figure()
-        gray()
-        for i in range(0,min(200,len(res))):
-                if i>=20:
-                    break
-                subplot(20,20,i+1)
-                axis('off')
-                img = res[i]
-                img = numpy.array(img)
-                imshow(img)
-        show()'''
-        return res;
-
-    def erase_black(self, src):
-        '''
-        剪切掉图片的纯黑色边框
-        :param src:
-        :return:
-        '''
-        i = 0
-        while True :
-            h,w = src.shape
-            if i >=w:
-                break;
-
-            if(numpy.max(src[:,i:i+1])<128):
-                if i == w-1 or numpy.max(src[:,i+1:i+2])<128:
-                    src = numpy.delete(src,i,axis=1)
-                    continue
-            i += 1
-        return src
-
-    def bounding_box(self, src):
-        '''
-        矩阵中非零元素的边框
-        :param src:
-        :return:
-        '''
-        B = numpy.argwhere(src)
-        if B.size == 0:
-            return [0,0,0,0]
-        (ystart, xstart), (ystop, xstop) = B.min(0), B.max(0) + 1
-
-        return [xstart,ystart,xstop-xstart,ystop-ystart]
-
-    def visualization_features(self, src,maxW=4.):
-        figure()
-        gray()
-        features = self.get_features_from_image(src,maxW)
-
-        i = 0
-        for img in features:
-            subplot(20,20,i+1)
-            axis('off')
-            imshow(img)
-            i +=1
-            if i == 400:
-                figure()
-                show()
-                i = 0
-        show()
 
 
 class NameToIndex:
