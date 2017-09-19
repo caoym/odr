@@ -506,70 +506,56 @@ class WordCluster(object):
         print '%d cluster_all end' % (time())
 
     def cluster_lv1(self):
+        """
+        对每一组样本单独聚类
+        :return:
+        """
         print "start cluster_lv1 ..."
 
         # # DB.db.connect()
-        offset = 0
-        limit = 3000
-
-        cluster = MiniBatchKMeans(n_clusters=100, verbose=1)
-
-        # query = DB.DescriptorModel.select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2).tuples().iterator()
-        # features = numpy.array(map(lambda x: [x[0]] + list(x[1]), query))
-        # offset += len(features)
-        #
-        # X = features[:, 1:]
-        # print 'Normalizer start'
-        # norm = preprocessing.Normalizer()
-        # X = norm.fit_transform(X)
-        # print 'PCA start'
-        # pca = RandomizedPCA(n_components=20, whiten=True)
-        # pca.fit_transform(X)
-        #
-        # print 'PCA done'
-
-
-        while True:
-            print ' %d partial_fit %d' % (time(), offset)
-
-            query = DB.DescriptorModel.select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2).offset(offset).limit(
-                limit).tuples().iterator()
-            features = numpy.array(map(lambda x: [x[0]] + list(x[1]), query))
-
-            if len(features) == 0:
-                break
-            offset += len(features)
-            X = features[:, 1:]
-            #X = norm.transform(X)
-            #X = pca.transform(X)
-            cluster.partial_fit(X)
-
         with DB.db.transaction():
             DB.Vocabulary.drop_table(fail_silently=True)
             DB.Vocabulary.create_table()
 
-            offset = 0
-            while True:
-                print ' %d predict %d' % (time(), offset)
-                query = DB.DescriptorModel.select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2).offset(
-                    offset).limit(1000).tuples().iterator()
-                features = numpy.array(map(lambda x: [x[0]] + list(x[1]), query))
-                if len(features) == 0:
-                    break
-                offset += len(features)
-                X = features[:, 1:]
-                Y = features[:, 0]
-                #X = norm.transform(X)
-                #X = pca.transform(X)
-                res = cluster.predict(X)
+        query = DB.Feature.select(DB.Feature.label).distinct().tuples().iterator()
 
+        for label in query :
+
+            print "start cluster_lv1 label %s ..."%label
+            query = DB.DescriptorModel.\
+                select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2).\
+                join(DB.Feature).where(DB.Feature.label == label).tuples().iterator()
+
+            features = numpy.array(map(lambda x: [x[0]] + list(x[1]), query))
+            X = features[:, 1:]
+            Y = features[:, 0]
+
+            #pca
+            print "start Normalizer label %s ,size:%d..." % (label, Y.size)
+
+            norm = preprocessing.Normalizer()
+            X = norm.fit_transform(X)
+            print "start RandomizedPCA label %s..." % label
+            pca = RandomizedPCA(n_components=70, whiten=True)
+            X = pca.fit_transform(X)
+
+            print "start DBSCAN label %s..." % label
+            cluster = DBSCAN(6, min_samples=3)
+            res = cluster.fit_predict(X)
+
+            types = numpy.unique(cluster.labels_[cluster.labels_ != -1]).size
+            print "done DBSCAN label %s: %d words, %d core samples, %d noise" % (
+                label, types, len(cluster.core_sample_indices_), cluster.labels_[cluster.labels_ == -1].size)
+
+            print "start save label %s..." % label
+            with DB.db.transaction():
                 for i in range(0, len(res)):
-                    DB.Vocabulary.insert(lv1=res[i], lv2=0, feature=Y[i]).execute()
+                    DB.Vocabulary.insert(lv1=res[i], lv2=0, feature=Y[i], label=label).execute()
+                for i in cluster.core_sample_indices_:
+                    DB.Vocabulary.update(lv1_core = True).where(DB.Vocabulary.feature == Y[i]).execute()
+            print "done cluster_lv1 label %s..." % label
+            self.display_words();
 
-        # print "%d words, %d core samples, %d noise"%(len(types.keys()),len(res.core_sample_indices_), len(types[-1]) )
-        self._lv1 = cluster
-        #self._lv1_pca = pca
-        #self._lv1_norm = norm
         print "done cluster_lv1"
         return cluster
 

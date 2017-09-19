@@ -72,7 +72,10 @@ class Words(Model):
 class Vocabulary(Model):
     lv1 = IntegerField(index=True)
     lv2 = IntegerField(index=True)
+    lv1_core = BooleanField(index=True, default=0)
+    lv2_core = BooleanField(index=True, default=0)
     feature = ForeignKeyField(Feature)
+    label = CharField(index=True)
     class Meta:
         database = db
 
