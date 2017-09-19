@@ -410,7 +410,7 @@ class WordCluster(object):
 
         figure()
         for i in words:
-            print i
+            print i;
             features = DB.Feature.select().join(DB.Vocabulary).where(
                 (DB.Vocabulary.lv1 == i[0]) & (DB.Vocabulary.lv2 == i[1])).limit(400).iterator()
             pos = 0
@@ -554,7 +554,7 @@ class WordCluster(object):
                 for i in cluster.core_sample_indices_:
                     DB.Vocabulary.update(lv1_core = True).where(DB.Vocabulary.feature == Y[i]).execute()
             print "done cluster_lv1 label %s..." % label
-            self.display_words()
+
 
         print "done cluster_lv1"
         return cluster
