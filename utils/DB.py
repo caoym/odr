@@ -6,7 +6,8 @@ import cPickle as pickle
 from StringIO import StringIO
 from PIL import Image
 
-db = SqliteDatabase("D:/data/trains.db" )
+DATABASE = '/Users/caoyangmin/Documents/odr.db'
+db = SqliteDatabase(DATABASE)
 db.get_conn().text_factory = str
 
 class PickleField(BlobField):
