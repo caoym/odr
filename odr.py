@@ -4,7 +4,7 @@ from scipy import signal
 from scipy.cluster.vq import whiten
 from skimage.morphology import skeletonize
 from sklearn import preprocessing
-from sklearn.cluster import DBSCAN, MiniBatchKMeans, MeanShift
+from sklearn.cluster import DBSCAN, MiniBatchKMeans, MeanShift, KMeans
 from sklearn.cross_validation import train_test_split
 from sklearn.decomposition import PCA, RandomizedPCA, IncrementalPCA
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -29,7 +29,7 @@ from utils import DB
 from PIL import Image
 from matplotlib.pyplot import *
 from skimage.feature import daisy, hog
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier, NearestNeighbors
 from words import get_features_from_image
 
 
@@ -127,8 +127,9 @@ class WordCluster(object):
         '''
         #self.make_features(samples_dir)
         #self.create_descriptors()
-        self.cluster_lv1()
-        self.cluster_lv2()
+        #self.cluster_words_for_labels()
+        self.merge_words_for_labels()
+        #self.cluster_lv2()
         #self.create_classifier()
 
     def predict(self, img_file):
@@ -233,7 +234,7 @@ class WordCluster(object):
         return lv2
 
     def get_words_count(self):
-        return DB.Vocabulary.select(DB.Vocabulary.lv1, DB.Vocabulary.lv2).where(
+        return DB.Vocabulary.select(DB.Vocabulary.lv2).where(
             (DB.Vocabulary.lv2 != -1) & (DB.Vocabulary.lv1 != -1)).distinct().count()
 
     def get_samples(self):
@@ -249,7 +250,7 @@ class WordCluster(object):
             key = (f.feature.label, f.feature.docname)
             if not docs.has_key(key):
                 docs[key] = []
-            docs[key].append("%d:%d"%(f.lv1, f.lv2))
+            docs[key].append(f.lv2)
         return docs
 
     def create_classifier(self):
@@ -311,93 +312,83 @@ class WordCluster(object):
         合并所有分类的词汇，并重新聚类
         '''
         print "start merge_words_for_labels ..."
-        query = DB.PcaModel.select(DB.PcaModel.feature, DB.PcaModel.pca) \
-            .join(DB.SubVocabulary, on=(DB.PcaModel.feature == DB.SubVocabulary.feature)) \
-            .where(DB.SubVocabulary.word != -1).tuples().iterator()
 
-        features = numpy.array(map(lambda x: [x[0]] + list(x[1]), query))
-
-        print "%d features" % (len(features))
         start = time()
-        print "start time %s " % (start)
 
-        index = features[:, 0]
-        data = features[:, 1:]
+        print("merge_words_for_labels start time %s" % (start))
+        print "start IncrementalPCA..."
+        self._pca = IncrementalPCA(n_components=70, whiten=True)
+        offset = 0
+        while True:
+            print ' %d PCA partial_fit %d' % (time(), offset)
+            query = DB.DescriptorModel. \
+                select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2). \
+                join(DB.Vocabulary, on=(DB.Vocabulary.feature == DB.DescriptorModel.feature)). \
+                offset(offset).\
+                limit(1000).\
+                where(DB.Vocabulary.lv1 != -1). \
+                tuples().iterator()
 
-        prepro = preprocessing.Normalizer()
-        data = prepro.fit_transform(data)
-        features = None
+            features = numpy.array(map(lambda x: [x[0]] + list(x[1]), query))
+            if len(features) == 0:
+                break
+            X = features[:, 1:]
+            Y = features[:, 0]
+            self._pca.partial_fit(X)
+            offset += 1000
 
-        '''bow = cv2.BOWKMeansTrainer(50000)
-        data = numpy.array(data,"float32")
-        center = bow.cluster(data);'''
-        cluster = DBSCAN(0.52, algorithm='ball_tree', min_samples=2, leaf_size=3000)
-        # cluster = Birch(threshold=0.028, n_clusters=None,copy=False)
-        # cluster = MeanShift();
-        #
-        # cluster = MiniBatchKMeans(init='k-means++', n_clusters=50000,random_state=0,batch_size=50000,reassignment_ratio=0,verbose=1,max_iter=100)
-        res = cluster.fit(data)
 
-        # cluster = KMeans(n_clusters=50000);
-        print "cost time %s" % (time() - start)
+        query = DB.Feature.select(
+            DB.Feature.label
+        ).distinct().tuples().iterator()
 
+        samples = []
+        for label in query:
+            label = label[0]
+            print "start calculate center for %s..."%(label)
+            # 取每个一级分类的中心再次分类
+            words_of_label = DB.Vocabulary.select(
+                DB.Vocabulary.lv1
+            ).distinct().where((DB.Vocabulary.label == label) & (DB.Vocabulary.lv1_core == 1)).tuples().iterator()
+
+            for lv1 in words_of_label:
+                print "start calculate center for %s, %d..." % (label, lv1)
+                lv1 = lv1[0]
+                lv1_query = DB.DescriptorModel. \
+                    select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2). \
+                    join(DB.Vocabulary, on=(DB.Vocabulary.feature == DB.DescriptorModel.feature)). \
+                    where((DB.Vocabulary.label == label) & (DB.Vocabulary.lv1 == lv1) & (DB.Vocabulary.lv1_core == 1)). \
+                    tuples().iterator()
+
+                features = numpy.array(map(lambda x: [x[0]] + list(x[1]), lv1_query))
+                X = features[:, 1:]
+                Y = features[:, 0]
+                self._pca.transform(X)
+                km = KMeans(n_clusters=1)
+                km.fit(X)
+                samples += [[label,lv1, km.cluster_centers_[0]]]
+
+        print "start DBSCAN..."
+        samples = numpy.array(samples)
+        cluster = DBSCAN(6, min_samples=1)
+        res = cluster.fit_predict(samples[:, 2:])
         types = {}
-        for i in range(0, len(res.labels_)):
-            type = res.labels_[i]
+        for i in range(0, len(res)):
+            type = res[i]
             if not types.has_key(type):
                 types[type] = []
             types[type].append(i)
+        print "done DBSCAN: %d words, %d core samples, %d noise" % (
+             len(types.keys()), len(cluster.core_sample_indices_), len(types[-1]) if types.has_key(-1) else 0)
 
-        # print "%d words, %d core samples, %d noise"%(len(types.keys()),len(res.core_sample_indices_), len(types[-1]) )
-        print "%d words" % len(types.keys())
-        types = sorted(types.iteritems(), key=lambda i: len(i[1]), reverse=True)
+        print "start save..."
 
-        '''figure()
-        line = 0
-        for k,v in types:
-            if k ==-1:
-                continue
-            print k,v;
-            for i in range(0,min(20,len(v))):
-                subplot(20,20,line*20+i+1)
-                axis('off')
-                f = DB.Feature(DB.Feature.img).get(DB.Feature.id == index[v[i]])
-                imshow(f.img)
-            line += 1
-            if line == 20:
-                line = 0
-                show()
-        show()'''
-
-        '''for k,v in types:
-            #if k ==-1:
-            #    continue
-            print k,v;
-            for i in range(0,min(400,len(v))):
-                subplot(20,20,i+1)
-                axis('off')
-                f = DB.Feature(DB.Feature.img).get(DB.Feature.id == index[v[i]])
-                imshow(f.img)
-            show()'''
-        # DB.db.connect()
         with DB.db.transaction():
-            DB.Vocabulary.drop_table(fail_silently=True)
-            DB.Vocabulary.create_table()
-            DB.Words.drop_table(fail_silently=True)
-            DB.Words.create_table()
-            for k, v in types:
-                if k == -1:
-                    continue
-                word = DB.Words()
-                word.chi = 0
-                word.idf = 0
-                word.ignore = False
-                word.save(force_insert=True)
-                for w in v:
-                    DB.Vocabulary.insert(word=word, feature=index[w]).execute()
+            for i in range(0, len(res)):
+                DB.Vocabulary.update(lv2=res[i]).where((DB.Vocabulary.label == samples[i][0]) & (DB.Vocabulary.lv1 == samples[i][1])).execute()
 
         print "done merge_words_for_labels"
-        return cluster
+
 
     def display_words(self):
         # DB.db.connect()
@@ -513,6 +504,9 @@ class WordCluster(object):
         print "start cluster_lv1 ..."
 
         # # DB.db.connect()
+        offset = 0
+        limit = 3000
+
         with DB.db.transaction():
             DB.Vocabulary.drop_table(fail_silently=True)
             DB.Vocabulary.create_table()
@@ -543,18 +537,23 @@ class WordCluster(object):
             cluster = DBSCAN(6, min_samples=3)
             res = cluster.fit_predict(X)
 
-            types = numpy.unique(cluster.labels_[cluster.labels_ != -1]).size
+            types = {}
+            for i in range(0, len(res)):
+                type = res[i]
+                if not types.has_key(type):
+                    types[type] = []
+                types[type].append(i)
             print "done DBSCAN label %s: %d words, %d core samples, %d noise" % (
-                label, types, len(cluster.core_sample_indices_), cluster.labels_[cluster.labels_ == -1].size)
+                label, len(types.keys()), len(cluster.core_sample_indices_), len(types[-1]) if types.has_key(-1) else 0)
 
             print "start save label %s..." % label
             with DB.db.transaction():
                 for i in range(0, len(res)):
-                    DB.Vocabulary.insert(lv1=res[i], lv2=0, feature=Y[i], label=label).execute()
+                    DB.Vocabulary.insert(lv1=res[i], lv2=0, feature=Y[i]).execute()
                 for i in cluster.core_sample_indices_:
-                    DB.Vocabulary.update(lv1_core = True).where(DB.Vocabulary.feature == Y[i]).execute()
-            print "done cluster_lv1 label %s..." % label
+                    DB.Vocabulary.update(lv1_core=True).where(DB.Vocabulary.feature == Y[i]).execute()
 
+            print "done cluster_lv1 label %s..." % label
 
         print "done cluster_lv1"
         return cluster
@@ -709,10 +708,8 @@ class WordCluster(object):
         '''
         # DB.db.connect()
         with DB.db.transaction():
-            DB.SubWords.drop_table(fail_silently=True)
-            DB.SubVocabulary.drop_table(fail_silently=True)
-            DB.SubVocabulary.create_table()
-            DB.SubWords.create_table()
+            DB.Vocabulary.drop_table(fail_silently=True)
+            DB.Vocabulary.create_table()
             '''query = DB.Feature.select(DB.Feature.id,DB.Feature.ori).distinct().iterator()
             i = 0
             for f in query:
@@ -731,80 +728,80 @@ class WordCluster(object):
 
     def cluster_words_for_label(self, label):
         '''
-        每个分类独立计算bow
+        每个分类独立聚类
         '''
         print "start cluster_words_for_label %s ..." % label
-
-        query = DB.PcaModel.select(DB.PcaModel.feature, DB.PcaModel.pca) \
-            .join(DB.Feature) \
-            .where((DB.Feature.ignore == 0) & (DB.Feature.label == label)).tuples().iterator()
+        start = time()
+        query = DB.DescriptorModel. \
+            select(DB.DescriptorModel.feature, DB.DescriptorModel.lv2). \
+            join(DB.Feature).where(DB.Feature.label == label).tuples().iterator()
 
         features = numpy.array(map(lambda x: [x[0]] + list(x[1]), query))
-        start = time()
+        X = features[:, 1:]
+        Y = features[:, 0]
+
         print("cluster_words_for_label %s start time %s,%d features" % (label, start, len(features)))
+        # pca
+        print "start Normalizer label %s ,size:%d..." % (label, Y.size)
 
-        index = features[:, 0]
-        data = features[:, 1:]
+        norm = preprocessing.Normalizer()
+        X = norm.fit_transform(X)
+        print "start RandomizedPCA label %s..." % label
+        pca = RandomizedPCA(n_components=70, whiten=True)
+        X = pca.fit_transform(X)
 
-        prepro = preprocessing.Normalizer()
-        data = prepro.fit_transform(data)
-        features = None
-
-        cluster = DBSCAN(0.55, algorithm='kd_tree', min_samples=3, leaf_size=300)
-        res = cluster.fit(data)
-
-        print "cluster cost time %s" % (time() - start)
+        print "start DBSCAN label %s..." % label
+        cluster = DBSCAN(6, min_samples=3)
+        res = cluster.fit_predict(X)
 
         types = {}
-        for i in range(0, len(res.labels_)):
-            type = res.labels_[i]
+        for i in range(0, len(cluster.labels_)):
+            type = cluster.labels_[i]
             if not types.has_key(type):
                 types[type] = []
             types[type].append(i)
+        print "done DBSCAN label %s: %d words, %d core samples, %d noise" % (
+            label, len(types.keys()), len(cluster.core_sample_indices_), len(types[-1]) if types.has_key(-1) else 0)
 
-        print "%d words, %d core samples, %d noise" % (
-        len(types.keys()), len(res.core_sample_indices_), len(types[-1]) if types.has_key(-1) else 0)
+
         types = sorted(types.iteritems(), key=lambda i: len(i[1]), reverse=True)
 
-        '''figure()
-        line = 0
-        for k,v in types:
-            if k ==-1:
-                continue
-            print k,v;
-            for i in range(0,min(20,len(v))):
-                subplot(20,20,line*20+i+1)
-                axis('off')
-                f = DB.Feature(DB.Feature.img).get(DB.Feature.id == index[v[i]])
-                imshow(f.img)
-            line += 1
-            if line == 20:
-                line = 0
-                show()
-        show()'''
-        '''
-        for k,v in types:
-            #if k ==-1:
-            #    continue
-            print k,v;
-            for i in range(0,min(400,len(v))):
-                subplot(20,20,i+1)
-                axis('off')
-                f = DB.Feature(DB.Feature.img).get(DB.Feature.id == index[v[i]])
-                imshow(f.img)
-            show()'''
 
-        for k, v in types:
-            if k == -1:
-                continue
-            words = DB.SubWords()
-            words.ignore = False
-            words.label = label
-            words.save()
-            for w in v:
-                DB.SubVocabulary.insert(word=words, feature=index[w]).execute()
+        print "start save label %s..." % label
+        with DB.db.transaction():
+            for i in range(0, len(res)):
+                DB.Vocabulary.insert(lv1=res[i], lv2=0, feature=Y[i], lv1_core=False, label=label).execute()
+            for i in cluster.core_sample_indices_:
+                DB.Vocabulary.update(lv1_core=True).where(DB.Vocabulary.feature == Y[i]).execute()
 
-        print "done cluster_words_for_label %s" % label
+        # figure()
+        # line = 0
+        # for k,v in types:
+        #     if k ==-1:
+        #         continue
+        #     print k,v
+        #     for i in range(0,min(20,len(v))):
+        #         subplot(20,20,line*20+i+1)
+        #         axis('off')
+        #         f = DB.Feature(DB.Feature.img).get(DB.Feature.id == Y[v[i]])
+        #         imshow(f.img)
+        #     line += 1
+        #     if line == 20:
+        #         line = 0
+        #         show()
+        # show()
+
+        # for k,v in types:
+        #     #if k ==-1:
+        #     #    continue
+        #     print k,v
+        #     for i in range(0,min(400,len(v))):
+        #         subplot(20,20,i+1)
+        #         axis('off')
+        #         f = DB.Feature(DB.Feature.img).get(DB.Feature.id == Y[v[i]])
+        #         imshow(f.img)
+        #     show()
+        print "done cluster_words_for_label, cost time %s" % (time() - start)
 
     def create_descriptors_pca(self, dim=90):
         '''
