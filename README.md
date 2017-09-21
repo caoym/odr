@@ -1,8 +1,9 @@
 # odr
 Optical Document Recognition/光学文档识别 
-[《http://www.jianshu.com/p/f774e273a883》配套代码](http://www.jianshu.com/p/f774e273a883)
 
-个人学习和尝试计算机视觉的项目
+[《一种基于视觉词汇的文本分类方法》配套代码](http://www.jianshu.com/p/f774e273a883)
+
+
 
 ## 尝试的方向
 基于视频词汇的文本图片分类
