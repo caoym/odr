@@ -4,7 +4,6 @@
     <list default="true" id="f1cfe00e-9aba-47f0-8cca-fb3b5f551971" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/__main__.py" afterPath="$PROJECT_DIR$/__main__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/odr.py" afterPath="$PROJECT_DIR$/odr.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/DB.py" afterPath="$PROJECT_DIR$/utils/DB.py" />
     </list>
     <ignored path="mytest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,8 +25,8 @@
       <file leaf-file-name="__main__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/__main__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="21" />
+            <state relative-caret-position="87">
+              <caret line="38" column="5" lean-forward="false" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
               <folding>
                 <element signature="e#16#26#0" expanded="true" />
               </folding>
@@ -38,13 +37,13 @@
       <file leaf-file-name="odr.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/odr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-50">
-              <caret line="55" column="23" lean-forward="false" selection-start-line="55" selection-start-column="4" selection-end-line="55" selection-end-column="23" />
+            <state relative-caret-position="164">
+              <caret line="364" column="0" lean-forward="false" selection-start-line="364" selection-start-column="0" selection-end-line="364" selection-end-column="0" />
               <folding>
                 <element signature="e#15#36#0" expanded="true" />
-                <element signature="e#18221#19040#0" expanded="false" />
-                <element signature="e#19089#20659#0" expanded="false" />
-                <element signature="e#21625#23303#0" expanded="false" />
+                <element signature="e#18212#19031#0" expanded="false" />
+                <element signature="e#19080#20650#0" expanded="false" />
+                <element signature="e#21616#23294#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -103,8 +102,8 @@
       <file leaf-file-name="peewee.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/anaconda/lib/python2.7/site-packages/peewee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="1017" column="0" lean-forward="false" selection-start-line="1017" selection-start-column="0" selection-end-line="1017" selection-end-column="0" />
+            <state relative-caret-position="104">
+              <caret line="1403" column="33" lean-forward="false" selection-start-line="1403" selection-start-column="30" selection-end-line="1403" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -143,7 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>MeanShift</find>
       <find>labels</find>
       <find>cluster_words_for_label</find>
       <find>cluster_words_for_labels</find>
@@ -170,9 +168,10 @@
       <find>pca.fit_transform</find>
       <find>pca.</find>
       <find>line</find>
-      <find>display_words</find>
       <find>order_by</find>
+      <find>get</find>
       <find>reclassify</find>
+      <find>display_words</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -211,13 +210,14 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/words.py" />
         <option value="$PROJECT_DIR$/utils/DB.py" />
-        <option value="$PROJECT_DIR$/__main__.py" />
         <option value="$PROJECT_DIR$/odr.py" />
+        <option value="$PROJECT_DIR$/__main__.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="25" />
+    <option name="x" value="463" />
+    <option name="y" value="92" />
     <option name="width" value="1280" />
     <option name="height" value="725" />
   </component>
@@ -661,19 +661,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1280" height="725" extended-state="0" />
+    <frame x="463" y="92" width="1280" height="725" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.171875" sideWeight="0.4847973" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.171875" sideWeight="0.4847973" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20807454" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37777779" sideWeight="0.46796876" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31587303" sideWeight="0.41171876" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32328308" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31672025" sideWeight="0.5921875" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31587303" sideWeight="0.5882813" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32857144" sideWeight="0.49583334" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909092" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24464832" sideWeight="0.6929687" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37777779" sideWeight="0.53203124" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37777779" sideWeight="0.53203124" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.114583336" sideWeight="0.5152027" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -763,8 +763,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/odr.py</url>
-          <line>370</line>
-          <option name="timeStamp" value="1118" />
+          <line>379</line>
+          <option name="timeStamp" value="1120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/odr.py</url>
+          <line>377</line>
+          <option name="timeStamp" value="1121" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -777,7 +782,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1119" />
+      <option name="time" value="1122" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -1051,14 +1056,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda/lib/python2.7/site-packages/peewee.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="1017" column="0" lean-forward="false" selection-start-line="1017" selection-start-column="0" selection-end-line="1017" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.2/python_stubs/-1418589329/numpy/core/multiarray.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="117">
@@ -1117,10 +1114,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/anaconda/lib/python2.7/site-packages/peewee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="1403" column="33" lean-forward="false" selection-start-line="1403" selection-start-column="30" selection-end-line="1403" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/__main__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="21" />
+        <state relative-caret-position="87">
+          <caret line="38" column="5" lean-forward="false" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
           <folding>
             <element signature="e#16#26#0" expanded="true" />
           </folding>
@@ -1129,13 +1134,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/odr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="55" column="23" lean-forward="false" selection-start-line="55" selection-start-column="4" selection-end-line="55" selection-end-column="23" />
+        <state relative-caret-position="164">
+          <caret line="364" column="0" lean-forward="false" selection-start-line="364" selection-start-column="0" selection-end-line="364" selection-end-column="0" />
           <folding>
             <element signature="e#15#36#0" expanded="true" />
-            <element signature="e#18221#19040#0" expanded="false" />
-            <element signature="e#19089#20659#0" expanded="false" />
-            <element signature="e#21625#23303#0" expanded="false" />
+            <element signature="e#18212#19031#0" expanded="false" />
+            <element signature="e#19080#20650#0" expanded="false" />
+            <element signature="e#21616#23294#0" expanded="false" />
           </folding>
         </state>
       </provider>

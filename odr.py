@@ -130,9 +130,9 @@ class WordCluster(object):
         :param samples_dir:
         :return:
         '''
-        #self.make_features(samples_dir)
-        #self.create_descriptors()
-        #self.cluster_words_for_labels()
+        self.make_features(samples_dir)
+        self.create_descriptors()
+        self.cluster_words_for_labels()
         self.merge_words_for_labels()
         self.create_classifier()
 
@@ -367,7 +367,7 @@ class WordCluster(object):
             features = DB.Feature.select().\
                 join(DB.Vocabulary).\
                 where((DB.Vocabulary.lv3 == word[0])&(DB.Vocabulary.lv1 != -1)).\
-                limit(20).get()
+                limit(20)
             pos = 0
             for i in range(0,min(20,len(features))):
                 pos += 1
