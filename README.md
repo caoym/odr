@@ -1,5 +1,6 @@
 # odr
-Optical Document Recognition/光学文档识别
+Optical Document Recognition/光学文档识别 
+[《http://www.jianshu.com/p/f774e273a883》配套代码](http://www.jianshu.com/p/f774e273a883)
 
 个人学习和尝试计算机视觉的项目
 
