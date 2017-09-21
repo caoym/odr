@@ -70,8 +70,9 @@ class Words(Model):
         database = db
 
 class Vocabulary(Model):
-    lv1 = IntegerField(index=True)
-    lv2 = IntegerField(index=True)
+    lv1 = IntegerField(index=True, default=-1)
+    lv2 = IntegerField(index=True, default=-1)
+    lv3 = IntegerField(index=True, default=-1)
     lv1_core = BooleanField(index=True, default=0)
     lv2_core = BooleanField(index=True, default=0)
     feature = ForeignKeyField(Feature)

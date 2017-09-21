@@ -31,12 +31,14 @@ def fit(input_dir, output_dir="/Users/caoyangmin/Documents/"):
     """
 
     # 通过聚类训练出词汇分类器
-    wc = WordCluster()
-    wc.fit(input_dir)
-    save(wc, output_dir + "wc.dump")
-    #wc = load(output_dir + "wc.dump")
-    #assert isinstance(wc, WordCluster)
+    #wc = WordCluster()
     #wc.fit(input_dir)
+    #save(wc, output_dir + "wc.dump")
+    wc = load(output_dir + "wc.dump")
+    assert isinstance(wc, WordCluster)
+    wc.fit(input_dir)
+    #wc.display_words()
+    save(wc, output_dir + "wc.dump")
 
     # 通过标注的样品，训练分类器
     dc = DocClassifier(wc)
